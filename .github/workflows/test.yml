@@ -27,4 +27,5 @@ jobs:
   depjob:
     runs-on: ubtunu-latest
     needs: [sleeps, test]
-    uses: ./
+    steps:
+    - uses: ./
