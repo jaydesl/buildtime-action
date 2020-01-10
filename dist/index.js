@@ -1994,7 +1994,7 @@ async function run() {
     const octokit = new github.GitHub(myToken);
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/")
     const ref = process.env.GITHUB_REF
-    const sha = process.env.GITHUB_SHA
+    const commit_sha = process.env.GITHUB_SHA
     const mylist = await octokit.checks.listForRef({
       owner,
       repo,
@@ -2017,7 +2017,7 @@ async function run() {
     octokit.repos.createCommitComment({
       owner,
       repo,
-      sha,
+      commit_sha,
       buildInfo
     })
     core.setOutput('uptime', uptime);
