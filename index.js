@@ -14,8 +14,11 @@ async function run() {
       repo,
       ref      
     });
-    console.log(`Uptime is ${uptime} seconds ...`);
-    console.log(mylist.data.check_runs)
+    started = mylist.data.check_runs.started_at
+    uptime = (Date.now() - new Date(started).getTime()) / 1000
+   
+    console.log(`buildtime is ${uptime} seconds ...`);
+    
     core.setOutput('uptime', uptime);
   } 
   catch (error) {
