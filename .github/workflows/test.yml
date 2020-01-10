@@ -7,19 +7,24 @@ on:
       - 'releases/*'
 
 jobs:
-  # unit tests
-  units:
+   
+
+ # tests 30sec sleep
+  sleeps:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - run: npm ci
-    - run: npm test
+    - run: sleep 30
+    - uses: ./
 
-  # test action works running from the graph  
+  # test no sleep 
   test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: ./
-      with:
-        milliseconds: 1000
+
+  depjob:
+    runs-on: ubtunu-latest
+    needs: [sleeps, test]
+    uses: ./
