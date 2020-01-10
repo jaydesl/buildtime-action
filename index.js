@@ -20,9 +20,9 @@ async function run() {
       started = new Date(x.started_at);
       completed = new Date(x.completed_at);
       if (completed == null) {
-        completed = Date.now()
+        continue;
       }
-      uptime = completed.getTime() - started.getTime();
+      uptime = (completed.getTime() - started.getTime()) / 1000;
       buildInfo[x.name] = uptime;
     }
     console.log(buildInfo)
