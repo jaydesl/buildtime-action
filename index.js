@@ -1,9 +1,8 @@
 const core = require('@actions/core');
-const os = require('os');
 
 async function run() {
   try { 
-    const uptime = os.uptime();
+    const uptime = process.uptime();
     console.log(`Uptime is ${uptime} seconds ...`)
     core.setOutput('uptime', uptime);
   } 

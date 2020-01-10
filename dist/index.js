@@ -54,11 +54,10 @@ module.exports = require("os");
 /***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
 
 const core = __webpack_require__(470);
-const os = __webpack_require__(87);
 
 async function run() {
   try { 
-    const uptime = os.uptime();
+    const uptime = process.uptime();
     console.log(`Uptime is ${uptime} seconds ...`)
     core.setOutput('uptime', uptime);
   } 
