@@ -19,7 +19,7 @@ async function run() {
     for (x of run_list) {
       started = new Date(x.started_at);
       completed = new Date(x.completed_at);
-      console.log(completed)
+      console.log(x.completed_at)
       if (x.completed_at == "null") {
         continue;
       }
@@ -28,8 +28,6 @@ async function run() {
     }
     console.log(buildInfo)
    
-    console.log(`buildtime is ${uptime} seconds ...`);
-    
     core.setOutput('uptime', uptime);
   } 
   catch (error) {
