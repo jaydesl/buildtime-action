@@ -1,10 +1,20 @@
 const core = require('@actions/core');
 const os = require('os');
+const github = require('@actions/github');
 
 async function run() {
-  try { 
+  try {
+    const myToken = core.getInput('myToken');
+    const octokit = new github.Github(myToken);
     const uptime = os.uptime();
-    console.log(`Uptime is ${uptime} seconds ...`)
+    const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/")
+    const ref = process.env.GITHUB_REF
+    octokit.checks.listForRef({
+      owner,
+      repo,
+      rep      
+    });
+    console.log(`Uptime is ${uptime} seconds ...`);
     core.setOutput('uptime', uptime);
   } 
   catch (error) {

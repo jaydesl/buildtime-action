@@ -14,19 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - run: sleep 30
+    - run: sleep 5
     - uses: ./
-
-  # test no sleep 
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - uses: ./
-
-  depjob:
-    runs-on: ubuntu-latest
-    needs: [sleeps, test]
-    steps:
-    - uses: actions/checkout@v1
-    - uses: ./
+      with:
+        myToken: ${{ secrets.GITHUB_TOKEN }}

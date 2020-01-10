@@ -1,6 +1,8 @@
 name: 'Wait'
 description: 'Wait a designated number of milliseconds'
 inputs:
+  myToken:
+    required: true
   milliseconds:  # id of input
     description: 'number of milliseconds to wait'
     required: true

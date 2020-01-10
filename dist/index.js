@@ -54,11 +54,22 @@ module.exports = require("os");
 /***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
 
 const core = __webpack_require__(470);
+const os = __webpack_require__(87);
+const github = __webpack_require__(690);
 
 async function run() {
-  try { 
-    const uptime = process.uptime();
-    console.log(`Uptime is ${uptime} seconds ...`)
+  try {
+    const myToken = core.getInput('myToken');
+    const octokit = new github.Github(myToken);
+    const uptime = os.uptime();
+    const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/")
+    const ref = process.env.GITHUB_REF
+    octokit.checks.listForRef({
+      owner,
+      repo,
+      rep      
+    });
+    console.log(`Uptime is ${uptime} seconds ...`);
     core.setOutput('uptime', uptime);
   } 
   catch (error) {
@@ -180,7 +191,7 @@ var ExitCode;
 // Variables
 //-----------------------------------------------------------------------
 /**
- * Sets env variable for this action and future actions in the job
+ * sets env variable for this action and future actions in the job
  * @param name the name of the variable to set
  * @param val the value of the variable
  */
@@ -190,13 +201,18 @@ function exportVariable(name, val) {
 }
 exports.exportVariable = exportVariable;
 /**
- * Registers a secret which will get masked from logs
- * @param secret value of the secret
+ * exports the variable and registers a secret which will get masked from logs
+ * @param name the name of the variable to set
+ * @param val value of the secret
  */
-function setSecret(secret) {
-    command_1.issueCommand('add-mask', {}, secret);
+function exportSecret(name, val) {
+    exportVariable(name, val);
+    // the runner will error with not implemented
+    // leaving the function but raising the error earlier
+    command_1.issueCommand('set-secret', {}, val);
+    throw new Error('Not implemented.');
 }
-exports.setSecret = setSecret;
+exports.exportSecret = exportSecret;
 /**
  * Prepends inputPath to the PATH (for this action and future actions)
  * @param inputPath
@@ -319,29 +335,6 @@ function group(name, fn) {
     });
 }
 exports.group = group;
-//-----------------------------------------------------------------------
-// Wrapper action state
-//-----------------------------------------------------------------------
-/**
- * Saves state for current action, the state can only be retrieved by this action's post job execution.
- *
- * @param     name     name of the state to store
- * @param     value    value to store
- */
-function saveState(name, value) {
-    command_1.issueCommand('save-state', { name }, value);
-}
-exports.saveState = saveState;
-/**
- * Gets the value of an state set by this action's main execution.
- *
- * @param     name     name of the state to get
- * @returns   string
- */
-function getState(name) {
-    return process.env[`STATE_${name}`] || '';
-}
-exports.getState = getState;
 //# sourceMappingURL=core.js.map
 
 /***/ }),
@@ -350,6 +343,14 @@ exports.getState = getState;
 /***/ (function(module) {
 
 module.exports = require("path");
+
+/***/ }),
+
+/***/ 690:
+/***/ (function() {
+
+eval("require")("@actions/github");
+
 
 /***/ })
 
