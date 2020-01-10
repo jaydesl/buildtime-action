@@ -1999,7 +1999,7 @@ async function run() {
       repo,
       ref      
     });
-    const started = new Date(mylist.data.check_runs.started_at)
+    const started = mylist.data.check_runs
     console.log(started)
     const uptime = (Date.now() - started.getTime()) / 1000
    
