@@ -28,7 +28,7 @@ async function run() {
       buildInfo[x.name] = uptime;
     }
 
-    const body = buildInfo
+    const body = JSON.stringify(buildInfo)
     console.log(buildInfo)
     octokit.repos.createCommitComment({
       owner,
