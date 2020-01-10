@@ -9,12 +9,13 @@ async function run() {
     const uptime = os.uptime();
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/")
     const ref = process.env.GITHUB_REF
-    octokit.checks.listForRef({
+    const mylist = octokit.checks.listForRef({
       owner,
       repo,
       ref      
     });
     console.log(`Uptime is ${uptime} seconds ...`);
+    console.log(mylist)
     core.setOutput('uptime', uptime);
   } 
   catch (error) {
