@@ -1998,7 +1998,7 @@ async function run() {
     octokit.checks.listForRef({
       owner,
       repo,
-      rep      
+      ref      
     });
     console.log(`Uptime is ${uptime} seconds ...`);
     core.setOutput('uptime', uptime);
