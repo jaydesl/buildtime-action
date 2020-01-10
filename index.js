@@ -9,7 +9,7 @@ async function run() {
     const uptime = os.uptime();
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/")
     const ref = process.env.GITHUB_REF
-    const mylist = octokit.checks.listForRef({
+    const mylist = await octokit.checks.listForRef({
       owner,
       repo,
       ref      
