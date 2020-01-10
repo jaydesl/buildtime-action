@@ -54,20 +54,13 @@ module.exports = require("os");
 /***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
 
 const core = __webpack_require__(470);
-const wait = __webpack_require__(949);
+const os = __webpack_require__(87);
 
-
-// most @actions toolkit packages have async methods
 async function run() {
   try { 
-    const ms = core.getInput('milliseconds');
-    console.log(`Waiting ${ms} milliseconds ...`)
-
-    core.debug((new Date()).toTimeString())
-    wait(parseInt(ms));
-    core.debug((new Date()).toTimeString())
-
-    core.setOutput('time', new Date().toTimeString());
+    const uptime = os.uptime();
+    console.log(`Uptime is ${uptime} seconds ...`)
+    core.setOutput('uptime', uptime);
   } 
   catch (error) {
     core.setFailed(error.message);
@@ -188,7 +181,7 @@ var ExitCode;
 // Variables
 //-----------------------------------------------------------------------
 /**
- * sets env variable for this action and future actions in the job
+ * Sets env variable for this action and future actions in the job
  * @param name the name of the variable to set
  * @param val the value of the variable
  */
@@ -198,18 +191,13 @@ function exportVariable(name, val) {
 }
 exports.exportVariable = exportVariable;
 /**
- * exports the variable and registers a secret which will get masked from logs
- * @param name the name of the variable to set
- * @param val value of the secret
+ * Registers a secret which will get masked from logs
+ * @param secret value of the secret
  */
-function exportSecret(name, val) {
-    exportVariable(name, val);
-    // the runner will error with not implemented
-    // leaving the function but raising the error earlier
-    command_1.issueCommand('set-secret', {}, val);
-    throw new Error('Not implemented.');
+function setSecret(secret) {
+    command_1.issueCommand('add-mask', {}, secret);
 }
-exports.exportSecret = exportSecret;
+exports.setSecret = setSecret;
 /**
  * Prepends inputPath to the PATH (for this action and future actions)
  * @param inputPath
@@ -332,6 +320,29 @@ function group(name, fn) {
     });
 }
 exports.group = group;
+//-----------------------------------------------------------------------
+// Wrapper action state
+//-----------------------------------------------------------------------
+/**
+ * Saves state for current action, the state can only be retrieved by this action's post job execution.
+ *
+ * @param     name     name of the state to store
+ * @param     value    value to store
+ */
+function saveState(name, value) {
+    command_1.issueCommand('save-state', { name }, value);
+}
+exports.saveState = saveState;
+/**
+ * Gets the value of an state set by this action's main execution.
+ *
+ * @param     name     name of the state to get
+ * @returns   string
+ */
+function getState(name) {
+    return process.env[`STATE_${name}`] || '';
+}
+exports.getState = getState;
 //# sourceMappingURL=core.js.map
 
 /***/ }),
@@ -340,24 +351,6 @@ exports.group = group;
 /***/ (function(module) {
 
 module.exports = require("path");
-
-/***/ }),
-
-/***/ 949:
-/***/ (function(module) {
-
-let wait = function(milliseconds) {
-  return new Promise((resolve, reject) => {
-    if (typeof(milliseconds) !== 'number') { 
-      throw new Error('milleseconds not a number'); 
-    }
-
-    setTimeout(() => resolve("done!"), milliseconds)
-  });
-}
-
-module.exports = wait;
-
 
 /***/ })
 
