@@ -15,10 +15,17 @@ async function run() {
     });
     const run_list = mylist.data.check_runs
     var x;
+    var buildInfo = new Object()
     for (x of run_list) {
-      console.log(x)
+      started = new Date(x.started_at);
+      completed = new Date(x.completed_at);
+      if (completed == null) {
+        completed = Date.now()
+      }
+      uptime = completed.getTime() - started.getTime();
+      buildInfo[x.name] = uptime;
     }
-    const uptime = (Date.now() - started.getTime()) / 1000
+    console.log(buildInfo)
    
     console.log(`buildtime is ${uptime} seconds ...`);
     
