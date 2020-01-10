@@ -19,6 +19,7 @@ async function run() {
     for (x of run_list) {
       started = new Date(x.started_at);
       completed = new Date(x.completed_at);
+      console.log(completed)
       if (completed == "null") {
         continue;
       }
