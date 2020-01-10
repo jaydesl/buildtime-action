@@ -7,7 +7,13 @@ on:
       - 'releases/*'
 
 jobs:
-   
+  test:
+   runs-on: ubuntu-latest
+   steps:
+   - uses: actions/checkout@v1
+   - uses: ./
+     with:
+       myToken: ${{ secrets.GITHUB_TOKEN }} 
 
  # tests 30sec sleep
   sleeps:
