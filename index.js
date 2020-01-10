@@ -6,7 +6,6 @@ async function run() {
   try {
     const myToken = core.getInput('myToken');
     const octokit = new github.GitHub(myToken);
-    const uptime = os.uptime();
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/")
     const ref = process.env.GITHUB_REF
     const mylist = await octokit.checks.listForRef({
@@ -15,7 +14,7 @@ async function run() {
       ref      
     });
     started = mylist.data.check_runs.started_at
-    uptime = (Date.now() - new Date(started).getTime()) / 1000
+    const uptime = (Date.now() - new Date(started).getTime()) / 1000
    
     console.log(`buildtime is ${uptime} seconds ...`);
     
