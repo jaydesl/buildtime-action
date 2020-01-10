@@ -1991,7 +1991,7 @@ const github = __webpack_require__(469);
 async function run() {
   try {
     const myToken = core.getInput('myToken');
-    const octokit = new github.Github(myToken);
+    const octokit = new github.GitHub(myToken);
     const uptime = os.uptime();
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/")
     const ref = process.env.GITHUB_REF
