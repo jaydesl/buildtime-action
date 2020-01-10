@@ -1994,6 +1994,7 @@ async function run() {
     const octokit = new github.GitHub(myToken);
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/")
     const ref = process.env.GITHUB_REF
+    const sha = process.env.GITHUB_SHA
     const mylist = await octokit.checks.listForRef({
       owner,
       repo,
@@ -2006,14 +2007,19 @@ async function run() {
       started = new Date(x.started_at);
       completed = new Date(x.completed_at);
       console.log(x.completed_at)
-      if (x.completed_at == "null") {
+      if (x.completed_at == null) {
         continue;
       }
       uptime = (completed.getTime() - started.getTime()) / 1000;
       buildInfo[x.name] = uptime;
     }
     console.log(buildInfo)
-   
+    octokit.repos.createCommitComment({
+      owner,
+      repo,
+      sha,
+      buildInfo
+    })
     core.setOutput('uptime', uptime);
   } 
   catch (error) {
