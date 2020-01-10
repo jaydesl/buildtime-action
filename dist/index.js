@@ -2001,7 +2001,7 @@ async function run() {
       ref      
     });
     console.log(`Uptime is ${uptime} seconds ...`);
-    console.log(mylist)
+    console.log(mylist.data.check_runs)
     core.setOutput('uptime', uptime);
   } 
   catch (error) {
