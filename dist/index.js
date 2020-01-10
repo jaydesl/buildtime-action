@@ -2005,7 +2005,7 @@ async function run() {
     for (x of run_list) {
       started = new Date(x.started_at);
       completed = new Date(x.completed_at);
-      if (completed == null) {
+      if (completed == "null") {
         continue;
       }
       uptime = (completed.getTime() - started.getTime()) / 1000;
