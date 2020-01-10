@@ -2006,7 +2006,7 @@ async function run() {
       started = new Date(x.started_at);
       completed = new Date(x.completed_at);
       console.log(completed)
-      if (completed == "null") {
+      if (x.completed_at == "null") {
         continue;
       }
       uptime = (completed.getTime() - started.getTime()) / 1000;
