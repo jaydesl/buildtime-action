@@ -2012,13 +2012,14 @@ async function run() {
       }
       uptime = (completed.getTime() - started.getTime()) / 1000;
       buildInfo[x.name] = uptime;
+      const body = buildInfo
     }
     console.log(buildInfo)
     octokit.repos.createCommitComment({
       owner,
       repo,
       commit_sha,
-      buildInfo
+      body
     })
     core.setOutput('uptime', uptime);
   } 
