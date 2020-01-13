@@ -2005,10 +2005,7 @@ async function run() {
       owner,
       repo
     });
-    console.log(commitList.data.sort(function(a,b){
-      var da=new Date(a.created_at), db=new Date(b.created_at);
-      return da - db;
-    }));
+    console.log(commitList.data.sort((a,b) => new Date(a.created_at).date - new Date(b.created_at).date));
 
     const run_list = mylist.data.check_runs
     var workflow;
