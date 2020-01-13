@@ -20,14 +20,14 @@ async function run() {
       repo,
       ref
     });
-    console.log(commitList)
+    console.log(commitList.data.check_suites)
 
     const run_list = mylist.data.check_runs
     var workflow;
     var body = "### Workflows & Completion Times\n"
     for (workflow of run_list.reverse()) {
-      started = new Date(x.started_at);
-      completed = new Date(x.completed_at);
+      started = new Date(workflow.started_at);
+      completed = new Date(workflow.completed_at);
       if (workflow.completed_at == null) {
         uptime = (Date.now() - started.getTime()) / 1000;
       } else {
