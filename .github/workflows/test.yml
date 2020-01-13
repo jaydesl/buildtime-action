@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - run: sleep 5
+    - run: sleep 2
     - uses: ./
       with:
         myToken: ${{ secrets.GITHUB_TOKEN }}
