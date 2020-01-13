@@ -12,23 +12,24 @@ async function run() {
     const mylist = await octokit.checks.listForRef({
       owner,
       repo,
-      ref      
+      ref
     });
     const run_list = mylist.data.check_runs
     var x;
     var buildInfo = new Object()
+    var body = "### Workflows & Completion Times\n"
     for (x of run_list) {
       started = new Date(x.started_at);
       completed = new Date(x.completed_at);
       console.log(x.completed_at)
       if (x.completed_at == null) {
-        continue;
+        uptime = process.uptime();
+      } else {
+        uptime = (completed.getTime() - started.getTime()) / 1000;
       }
-      uptime = (completed.getTime() - started.getTime()) / 1000;
-      buildInfo[x.name] = uptime;
+      body += `*${x.name}* completed after _${uptime} seconds_\n`;
     }
 
-    const body = JSON.stringify(buildInfo)
     console.log(buildInfo)
     octokit.repos.createCommitComment({
       owner,
@@ -37,7 +38,7 @@ async function run() {
       body
     })
     core.setOutput('uptime', uptime);
-  } 
+  }
   catch (error) {
     core.setFailed(error.message);
   }
