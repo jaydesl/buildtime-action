@@ -18,16 +18,16 @@ async function run() {
     var x;
     var buildInfo = new Object()
     var body = "### Workflows & Completion Times\n"
-    for (x of run_list) {
+    for (x of run_list.reverse()) {
       started = new Date(x.started_at);
       completed = new Date(x.completed_at);
       console.log(x.completed_at)
       if (x.completed_at == null) {
-        uptime = process.uptime();
+        uptime = (Date.now() - started.getTime()) / 1000;
       } else {
         uptime = (completed.getTime() - started.getTime()) / 1000;
       }
-      body += `*${x.name}* completed after _${uptime} seconds_\n`;
+      body += `**${x.name}** completed after _${uptime} seconds_\n`;
     }
 
     console.log(buildInfo)
