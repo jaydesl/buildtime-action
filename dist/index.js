@@ -2000,15 +2000,12 @@ async function run() {
       repo,
       ref
     });
-    var per_page=10
 
-    const commitList = await octokit.checks.listForRef({
+    const commitList = await octokit.checks.listCommitComments({
       owner,
-      repo,
-      ref,
-      per_page
+      repo
     });
-    console.log(commitList.data.check_runs)
+    console.log(commitList.data)
 
     const run_list = mylist.data.check_runs
     var workflow;
