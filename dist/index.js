@@ -2001,24 +2001,25 @@ async function run() {
       ref
     });
 
-    const commitlist = await octokit.repos.listCommits({
+    const commitList = await octokit.checks.listSuitesForRef({
       owner,
-      repo
+      repo,
+      ref
     });
-    console.log(commitlist)
+    console.log(commitList)
 
     const run_list = mylist.data.check_runs
-    var x;
+    var workflow;
     var body = "### Workflows & Completion Times\n"
-    for (x of run_list.reverse()) {
+    for (workflow of run_list.reverse()) {
       started = new Date(x.started_at);
       completed = new Date(x.completed_at);
-      if (x.completed_at == null) {
+      if (workflow.completed_at == null) {
         uptime = (Date.now() - started.getTime()) / 1000;
       } else {
         uptime = (completed.getTime() - started.getTime()) / 1000;
       }
-      body += `**${x.name}** completed after _${uptime} seconds_\n`;
+      body += `**${workflow.name}** completed after *${uptime} seconds*\n`;
     }
     octokit.repos.createCommitComment({
       owner,
