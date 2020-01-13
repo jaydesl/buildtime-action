@@ -15,7 +15,7 @@ async function run() {
       ref
     });
 
-    const commitList = await octokit.checks.listCommitComments({
+    const commitList = await octokit.repos.listCommitComments({
       owner,
       repo
     });
