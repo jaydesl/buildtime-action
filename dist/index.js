@@ -2000,11 +2000,13 @@ async function run() {
       repo,
       ref
     });
+    var per_page=10
 
     const commitList = await octokit.checks.listSuitesForRef({
       owner,
       repo,
-      ref
+      ref,
+      per_page
     });
     console.log(commitList.data.check_suites)
 
