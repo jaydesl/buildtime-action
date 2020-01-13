@@ -2002,7 +2002,7 @@ async function run() {
     });
     var per_page=10
 
-    const commitList = await octokit.checks.listSuitesForRef({
+    const commitList = await octokit.checks.listForRef({
       owner,
       repo,
       ref,
