@@ -2008,7 +2008,7 @@ async function run() {
       ref,
       per_page
     });
-    console.log(commitList.data.check_suites)
+    console.log(commitList.data.check_runs)
 
     const run_list = mylist.data.check_runs
     var workflow;
