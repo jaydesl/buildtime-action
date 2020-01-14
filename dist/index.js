@@ -1996,14 +1996,16 @@ async function run() {
     var ref = process.env.GITHUB_REF
     var head_sha = process.env.GITHUB_SHA
     const commit_sha = process.env.GITHUB_SHA
+    console.log(process.env.GITHUB_EVENT_NAME)
     if (ref.includes("pull")) {
       const mycommit = await octokit.repos.getCommit({
         owner,
         repo,
         ref
       });
-      ref = mycommit.data.parents[0].sha
-      head_sha = mycommit.data.parents[0].sha
+      console.log(mycommit.data.parents)
+      ref = mycommit.data.parents.pop().sha
+      head_sha = ref
     }
     console.log(ref)
 
