@@ -2026,6 +2026,7 @@ async function run() {
       commit_sha,
       body
     })
+    core.setOutput("body", body)
   }
   catch (error) {
     core.setFailed(error.message);
