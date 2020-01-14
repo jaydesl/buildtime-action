@@ -7,7 +7,7 @@ async function run() {
     const myToken = core.getInput('myToken');
     const octokit = new github.GitHub(myToken);
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/")
-    const ref = process.env.GITHUB_REF
+    const ref = process.env.GITHUB_SHA
     const commit_sha = process.env.GITHUB_SHA
 
     console.log(owner, repo, ref)
