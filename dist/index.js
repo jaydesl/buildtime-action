@@ -2003,6 +2003,13 @@ async function run() {
       ref
     });
 
+    const mycommit = await octokit.repos.getCommit({
+      owner,
+      repo,
+      ref
+    });
+    console.log(mycommit)
+
     const run_list = mylist.data.check_runs
     var workflow;
     var body = "### Workflows & Completion Times\n"
