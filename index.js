@@ -9,6 +9,8 @@ async function run() {
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/")
     const ref = process.env.GITHUB_REF
     const commit_sha = process.env.GITHUB_SHA
+
+    console.log(owner, repo, ref)
     const mylist = await octokit.checks.listForRef({
       owner,
       repo,
@@ -29,7 +31,6 @@ async function run() {
       }
       body += `**${workflow.name}** completed after *${uptime} seconds*\n`;
 
-      console.log(body, workflow.id)
       check_run_id = workflow.id;
     }
     var output = {};
