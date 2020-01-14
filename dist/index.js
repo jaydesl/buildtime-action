@@ -1994,6 +1994,7 @@ async function run() {
     const octokit = new github.GitHub(myToken);
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/")
     var ref = process.env.GITHUB_REF
+    var head_sha = process.env.GITHUB_SHA
     const commit_sha = process.env.GITHUB_SHA
     if (ref.includes("pull")) {
       const mycommit = await octokit.repos.getCommit({
@@ -2002,6 +2003,7 @@ async function run() {
         ref
       });
       ref = mycommit.data.parents[0].sha
+      head_sha = ref
     }
     console.log(ref)
 
@@ -2028,13 +2030,15 @@ async function run() {
       check_run_id = workflow.id;
     }
     var output = {};
+    var name = "Workflow timings"
     output.title = "Workflow times";
     output.summary = "### Here is a summary";
     output.text = "Here is a string";
-    await octokit.checks.update({
+    await octokit.checks.create({
       owner,
       repo,
-      check_run_id,
+      name,
+      head_sha,
       output
     });
 
