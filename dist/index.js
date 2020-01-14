@@ -2010,6 +2010,7 @@ async function run() {
     const run_list = mylist.data.check_runs
     var workflow;
     var body = "### Workflows & Completion Times\n"
+    var check_run_id;
     for (workflow of run_list.reverse()) {
       started = new Date(workflow.started_at);
       completed = new Date(workflow.completed_at);
@@ -2019,13 +2020,24 @@ async function run() {
         uptime = (completed.getTime() - started.getTime()) / 1000;
       }
       body += `**${workflow.name}** completed after *${uptime} seconds*\n`;
+      check_run_id = workflow.id;
     }
+    var output = {};
+    output.title = "Workflow times";
+    output.summary = "### Here is a summary";
+    output.text = body;
+    octokit.checks.update({
+      owner,
+      repo,
+      check_run_id,
+      output
+    });
     octokit.repos.createCommitComment({
       owner,
       repo,
       commit_sha,
       body
-    })
+    });
     core.setOutput("body", body)
   }
   catch (error) {
