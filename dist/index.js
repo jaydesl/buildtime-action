@@ -1993,22 +1993,23 @@ async function run() {
     const myToken = core.getInput('myToken');
     const octokit = new github.GitHub(myToken);
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/")
-    const ref = process.env.GITHUB_SHA
+    var ref = process.env.GITHUB_REF
     const commit_sha = process.env.GITHUB_SHA
+    if (ref.includes("pull")) {
+      const mycommit = await octokit.repos.getCommit({
+        owner,
+        repo,
+        ref
+      });
+      ref = mycommit.data.parents[0].sha
+    }
+    console.log(ref)
 
-    console.log(owner, repo, ref)
     const mylist = await octokit.checks.listForRef({
       owner,
       repo,
       ref
     });
-
-    const mycommit = await octokit.repos.getCommit({
-      owner,
-      repo,
-      ref
-    });
-    console.log(mycommit)
 
     const run_list = mylist.data.check_runs
     var workflow;
