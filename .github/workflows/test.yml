@@ -8,12 +8,27 @@ on:
 
 jobs:
 
- # sleep
+  some_task:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - run: sleep 5
+    
+  another_task:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - run: sleep 10
+
   sleeps:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - run: sleep 2
+    - run: sleep 4
+  
+  timings:
+    runs-on: ubuntu-latest
+    steps:
     - uses: ./
       with:
         myToken: ${{ secrets.GITHUB_TOKEN }}

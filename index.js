@@ -1,5 +1,4 @@
 const core = require('@actions/core');
-const os = require('os');
 const github = require('@actions/github');
 
 async function run() {
@@ -9,19 +8,15 @@ async function run() {
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/")
     var ref = process.env.GITHUB_REF
     var head_sha = process.env.GITHUB_SHA
-    const commit_sha = process.env.GITHUB_SHA
-    console.log(process.env.GITHUB_EVENT_NAME)
-    if (ref.includes("pull")) {
+    if (process.env.GITHUB_EVENT_NAME.includes("pull")) {
       const mycommit = await octokit.repos.getCommit({
         owner,
         repo,
         ref
       });
-      console.log(mycommit.data.parents)
       ref = mycommit.data.parents.pop().sha
       head_sha = ref
     }
-    console.log(ref)
 
     const mylist = await octokit.checks.listForRef({
       owner,
@@ -32,7 +27,6 @@ async function run() {
     const run_list = mylist.data.check_runs
     var workflow;
     var body = ""
-    var check_run_id;
     for (workflow of run_list.reverse()) {
       started = new Date(workflow.started_at);
       completed = new Date(workflow.completed_at);
@@ -42,8 +36,6 @@ async function run() {
         uptime = (completed.getTime() - started.getTime()) / 1000;
       }
       body += `**${workflow.name}** completed after *${uptime} seconds*\n`;
-
-      check_run_id = workflow.id;
     }
     var output = {};
     var name = "Workflow timings"
@@ -58,19 +50,6 @@ async function run() {
       head_sha,
       output,
       conclusion
-    });
-
-    const thisrun = await octokit.checks.get({
-      owner,
-      repo,
-      check_run_id
-    });
-    console.log(thisrun)
-    octokit.repos.createCommitComment({
-      owner,
-      repo,
-      commit_sha,
-      body
     });
   }
   catch (error) {
