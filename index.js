@@ -26,16 +26,18 @@ async function run() {
 
     const run_list = mylist.data.check_runs
     var workflow;
-    var body = ""
+    var body = "";
     for (workflow of run_list.reverse()) {
       started = new Date(workflow.started_at);
       completed = new Date(workflow.completed_at);
-      if (workflow.completed_at == null) {
+      body += `**${workflow.name}** ${workflow.status}`;
+      if (workflow.conclusion == null) {
         uptime = (Date.now() - started.getTime()) / 1000;
+        body += ` after *${uptime} seconds*\n`;
       } else {
         uptime = (completed.getTime() - started.getTime()) / 1000;
+        body += ` with ${workflow.conclusion} after *${uptime} seconds*\n`;
       }
-      body += `**${workflow.name}** completed after *${uptime} seconds*\n`;
     }
     var output = {};
     var name = "Workflow timings"

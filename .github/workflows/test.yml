@@ -29,6 +29,7 @@ jobs:
   timings:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v1
     - uses: ./
       with:
         myToken: ${{ secrets.GITHUB_TOKEN }}
