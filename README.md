@@ -38,7 +38,7 @@ $ npm test
 
 The action.yml contains defines the inputs and output for your action.
 
-Update the action.yml with your name, description, inputs and outputs for your action.
+Update the action.yml  your name, description, inputs and outputs for your action.
 
 See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
 
