@@ -29,7 +29,7 @@ async function run() {
 
     const run_list = mylist.data.check_runs
     var workflow;
-    var body = "### Workflows & Completion Times\n"
+    var body = ""
     var check_run_id;
     for (workflow of run_list.reverse()) {
       started = new Date(workflow.started_at);
@@ -45,15 +45,17 @@ async function run() {
     }
     var output = {};
     var name = "Workflow timings"
+    var conclusion = "success"
     output.title = "Workflow times";
-    output.summary = "### Here is a summary";
-    output.text = "Here is a string";
+    output.summary = "### Provide a listing of workflows completed as part of this suite";
+    output.text = body;
     await octokit.checks.create({
       owner,
       repo,
       name,
       head_sha,
-      output
+      output,
+      conclusion
     });
 
     const thisrun = await octokit.checks.get({
