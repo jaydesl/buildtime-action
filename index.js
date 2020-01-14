@@ -36,7 +36,6 @@ async function run() {
       body += `**${workflow.name}** completed after *${uptime} seconds*\n`;
       check_run_id = workflow.id;
     }
-    console.log(check_run_id);
     var output = {};
     output.title = "Workflow times";
     output.summary = "### Here is a summary";
@@ -47,6 +46,13 @@ async function run() {
       check_run_id,
       output
     });
+
+    const thisrun = await octokit.checks.get({
+      owner,
+      repo,
+      check_run_id
+    });
+    console.log(thisrun)
     octokit.repos.createCommitComment({
       owner,
       repo,
