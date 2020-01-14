@@ -2001,12 +2001,6 @@ async function run() {
       ref
     });
 
-    const commitList = await octokit.repos.listCommitComments({
-      owner,
-      repo
-    });
-    //console.log(commitList.data.sort((a,b) => new Date(b.created_at) - new Date(a.created_at)));
-
     const run_list = mylist.data.check_runs
     var workflow;
     var body = "### Workflows & Completion Times\n"
@@ -2020,6 +2014,8 @@ async function run() {
         uptime = (completed.getTime() - started.getTime()) / 1000;
       }
       body += `**${workflow.name}** completed after *${uptime} seconds*\n`;
+
+      console.log(body, workflow.id)
       check_run_id = workflow.id;
     }
     var output = {};
