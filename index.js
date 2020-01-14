@@ -40,7 +40,7 @@ async function run() {
     output.title = "Workflow times";
     output.summary = "### Here is a summary";
     output.text = "Here is a string";
-    octokit.checks.update({
+    await octokit.checks.update({
       owner,
       repo,
       check_run_id,
