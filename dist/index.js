@@ -2005,7 +2005,7 @@ async function run() {
       owner,
       repo
     });
-    console.log(commitList.data.sort((a,b) => new Date(b.created_at) - new Date(a.created_at)));
+    //console.log(commitList.data.sort((a,b) => new Date(b.created_at) - new Date(a.created_at)));
 
     const run_list = mylist.data.check_runs
     var workflow;
@@ -2022,10 +2022,11 @@ async function run() {
       body += `**${workflow.name}** completed after *${uptime} seconds*\n`;
       check_run_id = workflow.id;
     }
+    console.log(check_run_id);
     var output = {};
     output.title = "Workflow times";
     output.summary = "### Here is a summary";
-    output.text = body;
+    output.text = "Here is a string";
     octokit.checks.update({
       owner,
       repo,
@@ -2038,7 +2039,6 @@ async function run() {
       commit_sha,
       body
     });
-    core.setOutput("body", body)
   }
   catch (error) {
     core.setFailed(error.message);
