@@ -17,6 +17,7 @@ async function run() {
         ref
       });
       ref = mycommit.data.parents[0].sha
+      head_sha = mycommit.data.parents[0].sha
     }
     console.log(ref)
 
