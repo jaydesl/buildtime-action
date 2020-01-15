@@ -23,12 +23,17 @@ async function run() {
       repo,
       ref
     });
+    const suites = await octokit.checks.listSuitesForRef({
+      owner,
+      repo,
+      ref
+    })
 
     const run_list = mylist.data.check_runs
     var workflow;
     var body = "";
     var suiteID = 0;
-    console.log(process.env.GITHUB_ACTION)
+    console.log(suites.data.check_suites)
     core.info("testing core info log")
     for (workflow of run_list.reverse()) {
       if (workflow.name == "<WORKFLOW INFO>") {
