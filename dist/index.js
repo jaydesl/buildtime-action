@@ -2013,10 +2013,15 @@ async function run() {
     const run_list = mylist.data.check_runs
     var workflow;
     var body = "";
+    var suiteID = 0;
     for (workflow of run_list.reverse()) {
       started = new Date(workflow.started_at);
       completed = new Date(workflow.completed_at);
-      body += `**${workflow.name}** ${workflow.status}`;
+      if (workflow.check_suite.id != suiteID) {
+        suiteID = workflow.check_suite.id
+        body += `### Jobs for suite ${suiteID}\n`
+      }
+      body += `[**${workflow.name}**](${workflow.html_url}) ${workflow.status}`;
       if (workflow.conclusion == null) {
         uptime = (Date.now() - started.getTime()) / 1000;
         body += ` after *${uptime} seconds*\n`;
