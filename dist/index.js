@@ -2015,13 +2015,13 @@ async function publish_when_done(){
       repo,
       ref
     });
-    exit_flag = 1;
+    exit_flag = 0;
     for (suite of suites.data.check_suites) {
       if (suite.status != "completed") {
-        exit_flag = 0;
+        exit_flag++;
       }
     }
-    if (exit_flag == 1) {
+    if (exit_flag + 1 == suites.data.check_suites.length) {
       break;
     }
     await timer(2000);
