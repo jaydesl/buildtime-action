@@ -2019,7 +2019,7 @@ async function run() {
       completed = new Date(workflow.completed_at);
       if (workflow.check_suite.id != suiteID) {
         suiteID = workflow.check_suite.id
-        body += `### Jobs for suite ${suiteID}\n`
+        body += `### Workflow started at ${workflow.started_at}\n`
       }
       body += `[**${workflow.name}**](${workflow.html_url}) ${workflow.status}`;
       if (workflow.conclusion == null) {
@@ -2029,7 +2029,7 @@ async function run() {
         uptime = (completed.getTime() - started.getTime()) / 1000;
         body += ` with ${workflow.conclusion} after *${uptime} seconds*\n`;
       }
-      console.log(workflow.app.events)
+      console.log(workflow.app.owner)
     }
     var output = {};
     const name = "Workflow timings"
