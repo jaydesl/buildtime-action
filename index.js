@@ -28,7 +28,7 @@ async function run() {
     var workflow;
     var body = "";
     var suiteID = 0;
-    console.log(process.env.GITHUB_WORKFLOW)
+    console.log(process.env.GITHUB_ACTION)
     core.info("testing core info log")
     for (workflow of run_list.reverse()) {
       started = new Date(workflow.started_at);
