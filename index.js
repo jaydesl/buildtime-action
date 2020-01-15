@@ -28,12 +28,14 @@ async function run() {
     var workflow;
     var body = "";
     var suiteID = 0;
+    console.log(process.env.GITHUB_WORKFLOW)
+    core.info("testing core info log")
     for (workflow of run_list.reverse()) {
       started = new Date(workflow.started_at);
       completed = new Date(workflow.completed_at);
       if (workflow.check_suite.id != suiteID) {
         suiteID = workflow.check_suite.id
-        body += `### Workflow started at ${workflow.started_at}\n`
+        body += `### Workflow started at ${new Date(workflow.started_at).toDateString()}\n`
       }
       body += `[**${workflow.name}**](${workflow.html_url}) ${workflow.status}`;
       if (workflow.conclusion == null) {
@@ -43,7 +45,8 @@ async function run() {
         uptime = (completed.getTime() - started.getTime()) / 1000;
         body += ` with ${workflow.conclusion} after *${uptime} seconds*\n`;
       }
-      console.log(workflow.app.owner)
+      console.log(workflow)
+      
     }
     var output = {};
     const name = "Workflow timings"
