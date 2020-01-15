@@ -38,10 +38,11 @@ async function run() {
         uptime = (completed.getTime() - started.getTime()) / 1000;
         body += ` with ${workflow.conclusion} after *${uptime} seconds*\n`;
       }
+      console.log(workflow.app.events)
     }
     var output = {};
-    var name = "Workflow timings"
-    var conclusion = "success"
+    const name = "Workflow timings"
+    const conclusion = "success"
     output.title = "Workflow times";
     output.summary = "### Provide a listing of workflows completed as part of this suite";
     output.text = body;
