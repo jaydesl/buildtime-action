@@ -27,6 +27,7 @@ jobs:
     - run: sleep 4
   
   timings:
+    if: always()
     runs-on: ubuntu-latest
     needs: [sleeps, another_task, some_task]
     steps:

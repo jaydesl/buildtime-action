@@ -31,11 +31,14 @@ async function run() {
     console.log(process.env.GITHUB_ACTION)
     core.info("testing core info log")
     for (workflow of run_list.reverse()) {
+      if (workflow.name == "<WORKFLOW INFO>") {
+        continue;
+      }
       started = new Date(workflow.started_at);
       completed = new Date(workflow.completed_at);
       if (workflow.check_suite.id != suiteID) {
-        suiteID = workflow.check_suite.id
-        body += `### Workflow started at ${new Date(workflow.started_at).toDateString()}\n`
+        suiteID = workflow.check_suite.id;
+        body += `### Workflow started at ${new Date(workflow.started_at).toLocaleString()}\n`;
       }
       body += `[**${workflow.name}**](${workflow.html_url}) ${workflow.status}`;
       if (workflow.conclusion == null) {
@@ -49,9 +52,9 @@ async function run() {
       
     }
     var output = {};
-    const name = "Workflow timings"
+    const name = "<WORKFLOW INFO>"
     const conclusion = "success"
-    output.title = "Workflow times";
+    output.title = "Workflow info";
     output.summary = "### Provide a listing of workflows completed as part of this suite";
     output.text = body;
     await octokit.checks.create({
